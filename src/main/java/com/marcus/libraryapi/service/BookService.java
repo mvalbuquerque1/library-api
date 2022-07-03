@@ -1,5 +1,6 @@
 package com.marcus.libraryapi.service;
 
+import com.marcus.libraryapi.domain.dto.request.BookRequest;
 import com.marcus.libraryapi.domain.dto.response.BookResponse;
 import com.marcus.libraryapi.domain.entities.Book;
 import com.marcus.libraryapi.repositories.BookRepository;
@@ -20,5 +21,9 @@ public class BookService {
 
     public List<BookResponse> findAll() {
         return repository.findAll().stream().map(BookResponse::of).collect(Collectors.toList());
+    }
+
+    public Book save (BookRequest bookRequest) {
+        return this.repository.save(BookRequest.toDomain(bookRequest));
     }
 }
