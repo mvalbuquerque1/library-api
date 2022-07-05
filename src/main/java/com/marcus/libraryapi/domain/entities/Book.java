@@ -17,8 +17,8 @@ public class Book {
     private static final long serialVersionUID = 1L;
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String isbn;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String title;
     private String author;
