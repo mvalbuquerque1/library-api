@@ -32,6 +32,11 @@ public class BookController {
         return ResponseEntity.ok(book);
     }
 
+    @GetMapping(path = "/find")
+    public ResponseEntity<List<Book>> findByTitle(@RequestParam String title) {
+        return ResponseEntity.ok(service.findByTitle(title));
+    }
+
     @PostMapping
     public ResponseEntity<Book> save(@RequestBody BookPostRequestBody bookRequest) {
         var savedBook = service.save(bookRequest);
