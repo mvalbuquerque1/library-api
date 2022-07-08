@@ -25,14 +25,14 @@ import java.util.stream.Collectors;
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<BadRequestExceptionDetails> handleBadRequestException(BadRequestException bre) {
+    public ResponseEntity<BadRequestExceptionDetails> handleBadRequestException(BadRequestException badRequestException) {
         return new ResponseEntity<>(
                 BadRequestExceptionDetails.builder()
                         .timestamp(LocalDateTime.now())
                         .status(HttpStatus.BAD_REQUEST.value())
                         .title("Bad Request Exception, Check the Documentation")
-                        .details(bre.getMessage())
-                        .developerMessage(bre.getClass().getName())
+                        .details(badRequestException.getMessage())
+                        .message(badRequestException.getClass().getName())
                         .build(), HttpStatus.BAD_REQUEST);
     }
 
@@ -50,7 +50,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                         .status(HttpStatus.BAD_REQUEST.value())
                         .title("Bad Request Exception, Invalid Fields")
                         .details("Check the field(s) error")
-                        .developerMessage(exception.getClass().getName())
+                        .message(exception.getClass().getName())
                         .fields(fields)
                         .fieldsMessage(fieldsMessage)
                         .build(), HttpStatus.BAD_REQUEST);
@@ -65,7 +65,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .status(status.value())
                 .title(ex.getCause().getMessage())
                 .details(ex.getMessage())
-                .developerMessage(ex.getClass().getName())
+                .message(ex.getClass().getName())
                 .build();
 
         return new ResponseEntity<>(exceptionDetails, headers, status);

@@ -51,11 +51,11 @@ class BookControllerIT {
     }
 
     @Test
-    @DisplayName("listAll returns list of book when successful")
-    void listAll_ReturnsListOfBooks_WhenSuccessful() {
+    @DisplayName("fetchBooks returns list of book when successful")
+    void fetchBooks_ReturnsListOfBooks_WhenSuccessful() {
         Book savedBook = bookRepository.save(BookCreator.createBookToBeSaved());
 
-        String expectedName = savedBook.getTitle();
+        String expectedTitle = savedBook.getTitle();
 
         List<Book> books = testRestTemplateRoleUser.exchange("/books/", HttpMethod.GET, null,
                 new ParameterizedTypeReference<List<Book>>() {
@@ -66,7 +66,7 @@ class BookControllerIT {
                 .isNotEmpty()
                 .hasSize(1);
 
-        Assertions.assertThat(books.get(0).getTitle()).isEqualTo(expectedName);
+        Assertions.assertThat(books.get(0).getTitle()).isEqualTo(expectedTitle);
     }
 
     @Test
@@ -84,13 +84,13 @@ class BookControllerIT {
     }
 
     @Test
-    @DisplayName("findByName returns a list of book when successful")
-    void findByName_ReturnsListOfBook_WhenSuccessful() {
+    @DisplayName("findByTitle returns a list of book when successful")
+    void findByTitle_ReturnsListOfBook_WhenSuccessful() {
         Book savedBook = bookRepository.save(BookCreator.createBookToBeSaved());
 
-        String expectedName = savedBook.getTitle();
+        String expectedTitle = savedBook.getTitle();
 
-        String url = String.format("/books/find?title=%s", expectedName);
+        String url = String.format("/books/find?title=%s", expectedTitle);
 
         List<Book> books = testRestTemplateRoleUser.exchange(url, HttpMethod.GET, null,
                 new ParameterizedTypeReference<List<Book>>() {
@@ -101,12 +101,12 @@ class BookControllerIT {
                 .isNotEmpty()
                 .hasSize(1);
 
-        Assertions.assertThat(books.get(0).getTitle()).isEqualTo(expectedName);
+        Assertions.assertThat(books.get(0).getTitle()).isEqualTo(expectedTitle);
     }
 
     @Test
-    @DisplayName("findByName returns an empty list of book when book is not found")
-    void findByName_ReturnsEmptyListOfBook_WhenBookIsNotFound() {
+    @DisplayName("findByTitle returns an empty list of book when book is not found")
+    void findByTitle_ReturnsEmptyListOfBook_WhenBookIsNotFound() {
 
         List<Book> books = testRestTemplateRoleUser.exchange("/books/find?title=Java", HttpMethod.GET, null,
                 new ParameterizedTypeReference<List<Book>>() {

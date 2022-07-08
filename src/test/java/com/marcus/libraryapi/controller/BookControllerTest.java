@@ -34,7 +34,7 @@ class BookControllerTest {
 
     @BeforeEach
     void setUp() {
-        BDDMockito.when(bookServiceMock.findAll())
+        BDDMockito.when(bookServiceMock.fetchBooks())
                 .thenReturn(List.of(BookCreator.createValidBook()));
 
         BDDMockito.when(bookServiceMock.findById(ArgumentMatchers.anyLong()))
@@ -53,8 +53,8 @@ class BookControllerTest {
 
     @Test
     @DisplayName("listAll returns list of book when successful")
-    void listAll_ReturnsListOfBooks_WhenSuccessful(){
-        String expectedName = BookCreator.createValidBook().getTitle();
+    void fetchBooks_ReturnsListOfBooks_WhenSuccessful(){
+        String expectedTitle = BookCreator.createValidBook().getTitle();
 
         List<Book> books = bookController.fetchBooks().getBody();
 
@@ -63,7 +63,7 @@ class BookControllerTest {
                 .isNotEmpty()
                 .hasSize(1);
 
-        Assertions.assertThat(books.get(0).getTitle()).isEqualTo(expectedName);
+        Assertions.assertThat(books.get(0).getTitle()).isEqualTo(expectedTitle);
     }
 
     @Test
@@ -81,7 +81,7 @@ class BookControllerTest {
     @Test
     @DisplayName("findByTitle returns a list of book when successful")
     void findByTitle_ReturnsListOfBook_WhenSuccessful(){
-        String expectedName = BookCreator.createValidBook().getTitle();
+        String expectedTitle = BookCreator.createValidBook().getTitle();
 
         List<Book> books = bookController.findByTitle("book").getBody();
 
@@ -90,7 +90,7 @@ class BookControllerTest {
                 .isNotEmpty()
                 .hasSize(1);
 
-        Assertions.assertThat(books.get(0).getTitle()).isEqualTo(expectedName);
+        Assertions.assertThat(books.get(0).getTitle()).isEqualTo(expectedTitle);
     }
 
     @Test
@@ -118,13 +118,13 @@ class BookControllerTest {
     }
 
     @Test
-    @DisplayName("replace updates book when successful")
-    void replace_UpdatesBook_WhenSuccessful(){
+    @DisplayName("update updates book when successful")
+    void update_UpdatesBook_WhenSuccessful(){
 
-        Assertions.assertThatCode(() -> bookController.replace(BookPutRequestBodyCreator.createBookPutRequestBody()))
+        Assertions.assertThatCode(() -> bookController.update(BookPutRequestBodyCreator.createBookPutRequestBody()))
                 .doesNotThrowAnyException();
 
-        ResponseEntity<Void> entity = bookController.replace(BookPutRequestBodyCreator.createBookPutRequestBody());
+        ResponseEntity<Void> entity = bookController.update(BookPutRequestBodyCreator.createBookPutRequestBody());
 
         Assertions.assertThat(entity).isNotNull();
 

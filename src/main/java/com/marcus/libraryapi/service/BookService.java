@@ -19,7 +19,7 @@ public class BookService {
         this.repository = repository;
     }
 
-    public List<Book> findAll() {
+    public List<Book> fetchBooks() {
         return repository.findAll();
     }
 

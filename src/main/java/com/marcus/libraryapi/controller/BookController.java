@@ -22,7 +22,7 @@ public class BookController {
 
     @GetMapping()
     public ResponseEntity<List<Book>> fetchBooks() {
-        var books = service.findAll();
+        var books = service.fetchBooks();
         return ResponseEntity.ok(books);
     }
 
@@ -50,7 +50,7 @@ public class BookController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> replace(@RequestBody BookPutRequestBody bookPutRequestBody) {
+    public ResponseEntity<Void> update(@RequestBody BookPutRequestBody bookPutRequestBody) {
         service.update(bookPutRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

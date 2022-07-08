@@ -47,23 +47,23 @@ class BookServiceTest {
     }
 
     @Test
-    @DisplayName("listAllNonPageable returns list of book when successful")
-    void listAllNonPageable_ReturnsListOfBooks_WhenSuccessful() {
-        String expectedName = BookCreator.createValidBook().getTitle();
+    @DisplayName("fetchBooks returns list of book when successful")
+    void fetchBooks_ReturnsListOfBooks_WhenSuccessful() {
+        String expectedTitle = BookCreator.createValidBook().getTitle();
 
-        List<Book> books = bookService.findAll();
+        List<Book> books = bookService.fetchBooks();
 
         Assertions.assertThat(books)
                 .isNotNull()
                 .isNotEmpty()
                 .hasSize(1);
 
-        Assertions.assertThat(books.get(0).getTitle()).isEqualTo(expectedName);
+        Assertions.assertThat(books.get(0).getTitle()).isEqualTo(expectedTitle);
     }
 
     @Test
-    @DisplayName("findByIdOrThrowBadRequestException returns book when successful")
-    void findByIdOrThrowBadRequestException_ReturnsBook_WhenSuccessful() {
+    @DisplayName("findById returns book when successful")
+    void findById_ReturnsBook_WhenSuccessful() {
         Long expectedId = BookCreator.createValidBook().getId();
 
         Book book = bookService.findById(1L);
@@ -74,8 +74,8 @@ class BookServiceTest {
     }
 
     @Test
-    @DisplayName("findByIdOrThrowBadRequestException throws BadRequestException when book is not found")
-    void findByIdOrThrowBadRequestException_ThrowsBadRequestException_WhenBookIsNotFound() {
+    @DisplayName("findById throws BadRequestException when book is not found")
+    void findById_ThrowsBadRequestException_WhenBookIsNotFound() {
         BDDMockito.when(bookRepositoryMock.findById(ArgumentMatchers.anyLong()))
                 .thenReturn(Optional.empty());
 
@@ -86,7 +86,7 @@ class BookServiceTest {
     @Test
     @DisplayName("findByName returns a list of book when successful")
     void findByName_ReturnsListOfBook_WhenSuccessful() {
-        String expectedName = BookCreator.createValidBook().getTitle();
+        String expectedTitle = BookCreator.createValidBook().getTitle();
 
         List<Book> books = bookService.findByTitle("book");
 
@@ -95,12 +95,12 @@ class BookServiceTest {
                 .isNotEmpty()
                 .hasSize(1);
 
-        Assertions.assertThat(books.get(0).getTitle()).isEqualTo(expectedName);
+        Assertions.assertThat(books.get(0).getTitle()).isEqualTo(expectedTitle);
     }
 
     @Test
-    @DisplayName("findByName returns an empty list of book when book is not found")
-    void findByName_ReturnsEmptyListOfBook_WhenBookIsNotFound() {
+    @DisplayName("findByTitle returns an empty list of book when book is not found")
+    void findByTitle_ReturnsEmptyListOfBook_WhenBookIsNotFound() {
         BDDMockito.when(bookRepositoryMock.findByTitle(ArgumentMatchers.anyString()))
                 .thenReturn(Collections.emptyList());
 
@@ -123,8 +123,8 @@ class BookServiceTest {
     }
 
     @Test
-    @DisplayName("replace updates book when successful")
-    void replace_UpdatesBook_WhenSuccessful() {
+    @DisplayName("update updates book when successful")
+    void update_UpdatesBook_WhenSuccessful() {
 
         Assertions.assertThatCode(() -> bookService.update(BookPutRequestBodyCreator.createBookPutRequestBody()))
                 .doesNotThrowAnyException();

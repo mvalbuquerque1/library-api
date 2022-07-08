@@ -10,5 +10,14 @@ services:
     volumes:
       - library_data:/var/lib/mysql
 
+  spring-library:
+    image: app
+    ports:
+      - "8080:8080"
+    networks:
+      - library
+    depends_on:
+      - db
+
 volumes:
   library_data:
